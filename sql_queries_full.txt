@@ -1,0 +1,46 @@
+-- Identify all metrics in the dataset
+SELECT DISTINCT parameter
+FROM [IEA-EV-dataEV salesHistoricalCars];
+
+-- Calculate global EV sales by year
+SELECT year, SUM(value) AS total_ev_sales
+FROM [IEA-EV-dataEV salesHistoricalCars]
+WHERE parameter = 'EV sales'
+GROUP BY year
+ORDER BY year;
+
+-- Compare BEV vs. PHEV sales trends
+SELECT year, powertrain, SUM(value) AS sales
+FROM [IEA-EV-dataEV salesHistoricalCars]
+WHERE parameter = 'EV sales'
+  AND powertrain IN ('BEV','PHEV')
+GROUP BY year, powertrain
+ORDER BY year, powertrain;
+
+-- Calculate global EV sales share by year
+SELECT year, SUM(value) AS ev_sales_share
+FROM [IEA-EV-dataEV salesHistoricalCars]
+WHERE parameter = 'EV sales share'
+GROUP BY year
+ORDER BY year;
+
+-- Calculate global EV stock share by year
+SELECT year, SUM(value) AS ev_stock_share
+FROM [IEA-EV-dataEV salesHistoricalCars]
+WHERE parameter = 'EV stock share'
+GROUP BY year
+ORDER BY year;
+
+-- Top 10 countries by total EV sales (2024)
+SELECT TOP 10 region, SUM(value) AS total_sales_2024
+FROM [IEA-EV-dataEV salesHistoricalCars]
+WHERE parameter = 'EV sales' AND year = 2024
+GROUP BY region
+ORDER BY total_sales_2024 DESC;
+
+-- EV market share by country and year
+SELECT year, region, SUM(value) AS market_share
+FROM [IEA-EV-dataEV salesHistoricalCars]
+WHERE parameter = 'EV sales share'
+GROUP BY year, region
+ORDER BY year, market_share DESC;
