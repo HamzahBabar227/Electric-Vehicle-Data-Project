@@ -7,29 +7,8 @@ This project analyzes global electric vehicle (EV) sales and market share trends
 
 ## Data Wrangling & SQL in Azure Data Studio
 
-I began by exploring and cleaning the CSV in Excel, then moved to Azure Data Studio to write SQL queries that revealed the story behind the numbers:
+I began by exploring and cleaning the CSV in Excel, then moved to Azure Data Studio to write SQL queries that revealed the story behind the numbers.
 
-```sql
--- Identify all metrics in the dataset
-SELECT DISTINCT parameter
-FROM [IEA-EV-dataEV salesHistoricalCars];
-
--- Calculate global EV sales by year
-SELECT year, SUM(value) AS total_ev_sales
-FROM [IEA-EV-dataEV salesHistoricalCars]
-WHERE parameter = 'EV sales'
-GROUP BY year
-ORDER BY year;
-
--- Compare BEV vs. PHEV sales trends
-SELECT year, powertrain, SUM(value) AS sales
-FROM [IEA-EV-dataEV salesHistoricalCars]
-WHERE parameter = 'EV sales'
-  AND powertrain IN ('BEV','PHEV')
-GROUP BY year, powertrain
-ORDER BY year, powertrain;
-```sql
-```````
 ## Project Summary
 
 Through these steps, I mastered data cleansing techniques, learned to filter and aggregate with `GROUP BY`, and validated results to ensure accuracy.
